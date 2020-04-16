@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-@RequestMapping("v1/cars")
+@RequestMapping("rest/v1/cars")
 public class CarsController {
 
     private final CarsService carsService;

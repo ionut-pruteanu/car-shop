@@ -16,7 +16,3 @@ spring:
 
   resources:
     static-locations: classpath:/ui/
-
-server:
-  servlet:
-    context-path: /rest
