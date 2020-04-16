@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.5.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>net.ionut</groupId>
+  <artifactId>car-shop</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>server</module>
+    <module>ui</module>
+  </modules>
+
+  <properties>
+    <!-- maven settings -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+
+    <!--========== dependencies versions ==========-->
+    <java.version>11</java.version>
+    <slf4j.version>1.7.25</slf4j.version>
+    <logback.version>1.2.2</logback.version>
+    <assertj.version>3.15.0</assertj.version>
+    <mockito.version>3.3.3</mockito.version>
+
+    <node.version>v10.15.3</node.version>
+    <npm.version>6.4.1</npm.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!--==================== internal dependencies ====================-->
+
+      <dependency>
+        <groupId>net.ionut</groupId>
+        <artifactId>server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.ionut</groupId>
+        <artifactId>ui</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+    <!--==================== 3rd party dependencies ====================-->
+
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <!-- failsafe -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.16</version>
+          <configuration>
+            <includes>
+              <include>**/*Test.java</include>
+              <include>**/*TestSuite.java</include>
+            </includes>
+            <excludes>
+              <exclude>**/*ManualTest.java</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+
+        <!-- Enforcer -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>1.4.1</version>
+
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>extra-enforcer-rules</artifactId>
+              <version>1.0-beta-9</version>
+            </dependency>
+          </dependencies>
+
+          <executions>
+            <execution>
+              <id>enforce-banned-dependencies</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requirePluginVersions>
+                    <message>Best Practice is to always define plugin versions!</message>
+                    <banLatest>true</banLatest>
+                    <banRelease>true</banRelease>
+                    <banSnapshots>true</banSnapshots>
+                    <phases>clean,deploy,site</phases>
+                  </requirePluginVersions>
+
+                  <bannedDependencies>
+                    <excludes>
+                      <exclude>commons-logging</exclude>        <!-- using slf4j instead -->
+                    </excludes>
+                  </bannedDependencies>
+
+                  <banDuplicateClasses>
+                    <findAllDuplicates>true</findAllDuplicates>
+                    <ignoreWhenIdentical>false</ignoreWhenIdentical>
+
+                    <ignoreClasses>
+                      <!-- wiremock conflicts -->
+                      <ignoreClass>org.slf4j.*</ignoreClass>
+                      <ignoreClass>com.google.thirdparty.publicsuffix.*</ignoreClass>
+                      <ignoreClass>javax.servlet.*</ignoreClass>
+
+                      <!-- jetty conflicts -->
+                      <ignoreClass>javax.websocket.*</ignoreClass>
+                    </ignoreClasses>
+                  </banDuplicateClasses>
+
+                  <requireSameVersions>
+                    <dependencies>
+                      <dependency>org.slf4j:*</dependency>
+                    </dependencies>
+                  </requireSameVersions>
+                  <requireSameVersions>
+                    <dependencies>
+                      <dependency>org.springframework:*</dependency>
+                    </dependencies>
+                  </requireSameVersions>
+                  <requireSameVersions>
+                    <dependencies>
+                      <dependency>com.fasterxml.jackson.core:*</dependency>
+                    </dependencies>
+                  </requireSameVersions>
+                </rules>
+
+                <fail>true</fail>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+
+      <!-- Enforcer -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

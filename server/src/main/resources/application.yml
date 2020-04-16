@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: car-shop
+  data:
+    mongodb:
+      host: ${MONGO_HOST:localhost}
+      port: ${MONGO_PORT:27017}
+      username: ${MONGO_USERNAME:root}
+      password: ${MONGO_PASSWORD:test123}
+      database: ${MONGO_DATABASE:garrage}
+      authentication-database: admin
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+  resources:
+    static-locations: classpath:/ui/
+
+server:
+  servlet:
+    context-path: /rest

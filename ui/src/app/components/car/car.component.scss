@@ -1,0 +1,18 @@
+
+.car {
+  .car-details {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    table {
+      width: fit-content;
+
+      td:first-child {
+        font-weight: bold;
+        padding-right: 2em;
+      }
+    }
+  }
+}

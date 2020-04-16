@@ -1,0 +1,30 @@
+<div class="cars">
+
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">Model</th>
+      <th scope="col">Year Model</th>
+      <th scope="col">Date Added</th>
+      <th scope="col">Licensed</th>
+      <th scope="col">Price</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let car of cars"
+        [class.selectable]="car.licensed"
+        (click)="showCarDetails(car.id)">
+
+      <td scope="row">{{car.make}}</td>
+      <td scope="row">{{car.model}}</td>
+      <td scope="row">{{car.yearModel}}</td>
+      <td scope="row">{{car.dateAdded}}</td>
+      <td scope="row">{{car.licensed}}</td>
+      <td scope="row">{{car.price}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
